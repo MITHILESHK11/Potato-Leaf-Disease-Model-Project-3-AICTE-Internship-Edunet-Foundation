@@ -1,35 +1,47 @@
 import streamlit as st
 import tensorflow as tf
 import numpy as np
-
-def model_prediction(test_image):
-    model= tf.keras.models.load_model("trained_plant_disease_model.keras")
-    image= tf.keras.preprocessing.image.load_img(test_image,target_size=(128,128))
-    input_arr = tf.keras.preprocessing.image.img_to_array(image)
-    input_arr=np.array([input_arr])
-    predictions= model.predict(input_arr)
-    return np.argmax(predictions)
-st.sidebar.title("Plant Disease system for Sustainable Agriculture")
-app_mode = st.sidebar.selectbox('select page',['Home','Disease Recognition'])
-
 from PIL import Image
-img= Image.open('Diseases.png')
-st.image(img)
 
-if(app_mode=='HOME'):
-    st.markdown("<h1 style='text-align: center;'>Plant Disease Detection System for Sustainable Agriculture", unsafe_allow_html=True)
+# Load the trained model
+@st.cache_resource
+def load_model():
+    return tf.keras.models.load_model("trained_plant_disease_model.keras")
 
-elif(app_mode=='Disease Recognition'):
-    st.header('Plant Disease Detection System For Sustainable Agriculture')
+model = load_model()
 
+# Function to make predictions
+def model_prediction(test_image):
+    image = tf.keras.preprocessing.image.load_img(test_image, target_size=(128, 128))
+    input_arr = tf.keras.preprocessing.image.img_to_array(image)
+    input_arr = np.array([input_arr])
+    predictions = model.predict(input_arr)
+    
+    class_names = ['Early Blight', 'Late Blight', 'Healthy']
+    return class_names[np.argmax(predictions)]
 
-test_image= st.file_uploader('Choose an image:')
-if(st.button('Show Image')):
-    st.image(test_image,width=4,use_column_width=True)
+# Streamlit UI
+st.set_page_config(page_title="Plant Disease Detector", layout="centered")
 
-if (st.button('Predict')):
+# Sidebar
+st.sidebar.title("🌱 Plant Disease Detection")
+st.sidebar.write("A system for sustainable agriculture")
+
+# Main Interface
+st.markdown("<h1 style='text-align: center; color: #2E8B57;'>🌿 Plant Disease Detection System</h1>", unsafe_allow_html=True)
+st.image("Diseases.png", use_column_width=True)
+
+st.write("📷 Upload an image of a potato leaf, and our AI will detect if it's healthy or affected by a disease.")
+
+# File uploader
+test_image = st.file_uploader("Upload an image", type=["jpg", "png", "jpeg"])
+
+# Display Image
+if test_image:
+    st.image(test_image, caption="Uploaded Image", use_column_width=True)
+
+# Predict Button
+if test_image and st.button("🔍 Predict"):
     st.snow()
-    st.write('our prediction')
-    result_index = model_prediction(test_image)
-    class_name=['Potato___Early_blight','Potato___Late_blight','Potato___healthy']
-    st.success('Model is predicting its a {}'.format(class_name[result_index]))
+    prediction = model_prediction(test_image)
+    st.success(f"✨ We predict it is **{prediction}**")
