@@ -29,7 +29,7 @@ st.sidebar.write("A system for sustainable agriculture")
 
 # Main Interface
 st.markdown("<h1 style='text-align: center; color: #2E8B57;'>🌿 Plant Disease Detection System</h1>", unsafe_allow_html=True)
-st.image("Diseases.png", use_container_width=True)
+st.image("Disease.jpg", use_container_width=True)
 
 st.write("📷 Upload an image of a potato leaf, and our AI will detect if it's healthy or affected by a disease.")
 
