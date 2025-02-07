@@ -38,7 +38,7 @@ test_image = st.file_uploader("Upload an image", type=["jpg", "png", "jpeg"])
 
 # Display Image
 if test_image:
-    st.image(test_image, caption="Uploaded Image", use_column_width=True)
+    st.image(test_image, caption="Uploaded Image", use_container_width=True)
 
 # Predict Button
 if test_image and st.button("🔍 Predict"):
