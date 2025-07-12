@@ -6,7 +6,8 @@ from PIL import Image
 # Load the trained model
 @st.cache_resource
 def load_model():
-    return tf.keras.models.load_model("trained_plant_disease_model.keras")
+    return tf.keras.models.load_model("trained_plant_disease_model.keras", compile=False)
+
 
 model = load_model()
 
