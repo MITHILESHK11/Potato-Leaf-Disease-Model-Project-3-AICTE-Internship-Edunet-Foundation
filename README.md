@@ -45,15 +45,6 @@ streamlit run app.py
 
 ---
 
-## 🏗️ Deployment
-You can deploy this Streamlit app using:
-- **Streamlit Community Cloud** (Free hosting)
-- **Heroku**
-- **Render**
-- **Docker** (for cloud hosting)
-
----
-
 ## 🤖 Model Details
 - The deep learning model is built using **Keras** and trained on a dataset of potato leaves.
 - It achieves **high accuracy** on validation data.
